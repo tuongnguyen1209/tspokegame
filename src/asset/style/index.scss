@@ -1,0 +1,16 @@
+html {
+  font-size: 62.5%;
+}
+body {
+  background: linear-gradient(to right, #00b4db, #0083b0);
+}
+.header {
+  text-align: center;
+  font-size: 2rem;
+  color: #ecf0f1;
+  padding: 1rem;
+}
+
+@import "./container";
+@import "./card";
+@import "./controller";

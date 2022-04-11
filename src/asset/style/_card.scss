@@ -1,0 +1,29 @@
+.card {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 1rem;
+  transform: translateX(-50%) translateY(-50%);
+  transition: all 0.2s ease;
+  top: 50%;
+  left: 50%;
+  &.selected &__img {
+    background-color: #e0ee204d;
+  }
+  &.selected.error &__img {
+    background-color: #ee20204d;
+  }
+  &.selected.correct &__img {
+    background-color: #49ee204d;
+  }
+  &__img {
+    border-radius: 1rem;
+    width: 100%;
+    transition: all 0.1s ease-in-out;
+  }
+}

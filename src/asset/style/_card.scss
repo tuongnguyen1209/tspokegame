@@ -12,6 +12,7 @@
   transition: all 0.2s ease;
   top: 50%;
   left: 50%;
+  cursor: pointer;
   &.selected &__img {
     background-color: #e0ee204d;
   }

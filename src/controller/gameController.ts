@@ -1,30 +1,41 @@
 import Card from "../model/card";
 import pokeService from "../service/poke.service";
-import { createListNull } from "../utils/utils";
+import { createListNull, shuffle } from "../utils/utils";
+import AudioController from "./audioController";
+import LoadingController from "./loadingController";
+import MenuController from "./menuController";
 
 class GameController {
   list: any[] = [];
-  total: number = 20;
+  total: number = 50;
   width: number = 8;
   height: number = 6;
   cardSelect: Card[] = [];
+  audio: AudioController;
 
-  constructor() {}
+  constructor() {
+    this.audio = new AudioController();
+  }
 
   createList() {
     (async () => {
       this.list = createListNull(this.width, this.height);
 
       let listPoke: Card[] = [];
-
+      LoadingController.show();
       for (var i = 1; i < this.total + 1; i++) {
-        const poke = await pokeService.getById(i + 1);
+        const poke = await pokeService.getById(
+          Math.trunc(Math.random() * 850 + 1)
+        );
 
         const newCard1 = new Card(`${poke.pokeId}`, poke.image);
         const newCard2 = new Card(`${poke.pokeId}`, poke.image);
         listPoke.push(newCard1);
         listPoke.push(newCard2);
       }
+      LoadingController.hidden();
+
+      listPoke = shuffle(listPoke);
 
       for (let i = 0; i < listPoke.length; i++) {
         let x: number = Math.trunc(Math.random() * (this.width - 1) + 1);
@@ -66,6 +77,8 @@ class GameController {
 
         current.click();
 
+        this.audio.audioClick();
+
         this.cardSelect.push(current);
 
         if (this.cardSelect.length == 2) {
@@ -75,6 +88,7 @@ class GameController {
           } else if (this.cardSelect[0].check(this.cardSelect[1])) {
             this.cardSelect.forEach((e: Card) => {
               e.clickCorrect();
+              this.audio.audioCorrect();
               this.removeByID(e.id);
             });
             this.cardSelect = [];
@@ -84,6 +98,7 @@ class GameController {
             }
           } else {
             this.cardSelect.forEach((e: Card) => e.clickError());
+            this.audio.audioError();
             this.cardSelect = [];
           }
         }
@@ -135,8 +150,16 @@ class GameController {
       }
     }
 
+    if (listTemp.length == 0) {
+      const menuController = new MenuController();
+      menuController.win();
+      this.audio.audioWin();
+      document.getElementById("btnnewgame").addEventListener("click", () => {
+        this.start();
+      });
+    }
+
     listTemp = listTemp.sort((a: Card, b: Card) => a.id - b.id);
-    console.log(listTemp);
 
     for (let i = 0; i < listTemp.length - 1; i++) {
       if (listTemp[i].idPokemon == listTemp[i + 1].idPokemon) {

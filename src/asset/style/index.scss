@@ -1,16 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300&family=Rubik+Wet+Paint&display=swap");
+
 html {
   font-size: 62.5%;
 }
+
 body {
-  background: linear-gradient(to right, #00b4db, #0083b0);
+  background: url("https://wallpapercave.com/wp/wp2098819.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: "Mulish", sans-serif;
 }
 .header {
   text-align: center;
   font-size: 2rem;
   color: #ecf0f1;
   padding: 1rem;
+  font-family: "Rubik Wet Paint", cursive;
+  &__end {
+    font-size: 3rem;
+  }
+}
+.hidden {
+  display: none;
 }
 
 @import "./container";
 @import "./card";
 @import "./controller";
+@import "./button";
+@import "./loading";
